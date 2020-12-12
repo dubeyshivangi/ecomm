@@ -1,0 +1,73 @@
+{%	load	static	%}
+<!DOCTYPE	html>
+<html>
+<head>
+    <meta	charset="utf-8"	/>
+    <title>{%	block	title	%}My	shop{%	endblock	%}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link	href="{%	static	"css/main.css"	%}"	rel="stylesheet">
+</head>
+<body>
+<div class="sidenav">
+        <h2>Categories</h2>
+        <ul>
+                <li {% if not category	%}class="selected"{% endif %}>
+                        <a href="{% url	"shop:product_list" %}">All</a>
+                </li>
+                {% for	c in categories	%}
+                    <li	{% if category.slug == c.slug %}class="selected"{% endif %}>
+                                <a href="{{ c.get_absolute_url	}}">{{	c.name	}}</a>
+                        </li>
+                {% endfor %}
+        </ul>
+</div>
+<nav class="navbar navbar-expand-lg navbar navbar-dark" style="background-color: #041F61;">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#"><strong>My Shop Site</strong></a>
+    </div>
+    <ul class="nav navbar-nav">
+	<a class="nav-link" href="{% url "shop:product_list" %}"><i class="fa fa-home"></i> <strong>Home</strong><span class="sr-only">(current)</span></a>
+      {% comment %} <li class="active"><a href="#">Home</a></li> {% endcomment %}
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+	<div>
+	<a class="nav-link" href="{% url "cart:cart_detail" %}"><i class="fa fa-shopping-cart" style="font-size:22px;color:white"></i>     <strong>
+  {%	with	total_items=cart|length	%}
+				{%	if	cart|length	>	0	%}
+						Your	cart:	
+						<a	href="{%	url	"cart:cart_detail"	%}">
+								{{	total_items	}}	item{{	total_items|pluralize	}},
+								{{	cart.get_total_price	}} Rs
+						</a>
+				{%	else	%}
+						Your	cart	is	empty.
+				{%	endif	%}
+		{%	endwith	%}
+
+  </strong></a>
+  </div>
+    </ul>
+  </div>
+</nav>
+ 
+{% comment %} <div class="container-fluid"> Your cart is Empty</div> {% endcomment %}
+    {% comment %} <div	id="header">
+        <a	href="/"	class="logo">My	shop</a>
+    </div>
+    <div	id="subheader">
+            <div class="cart">
+                Your	cart	is	empty.
+            </div>
+    </div> {% endcomment %}
+    <div	id="content">
+            {%	block	content	%}
+            {%	endblock	%}
+    </div>
+</body>
+</html>
